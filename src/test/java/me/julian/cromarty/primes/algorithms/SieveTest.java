@@ -36,16 +36,17 @@ public class SieveTest {
   }
 
   private Object[] primesToTen() {
-    return new Object[] { new Object[] { 1, new HashSet<>(Arrays.asList(1)) },
-        new Object[] { 2, new HashSet<>(Arrays.asList(1, 2)) },
-        new Object[] { 3, new HashSet<>(Arrays.asList(1, 2, 3)) },
-        new Object[] { 4, new HashSet<>(Arrays.asList(1, 2, 3)) },
-        new Object[] { 5, new HashSet<>(Arrays.asList(1, 2, 3, 5)) },
-        new Object[] { 6, new HashSet<>(Arrays.asList(1, 2, 3, 5)) },
-        new Object[] { 7, new HashSet<>(Arrays.asList(1, 2, 3, 5, 7)) },
-        new Object[] { 8, new HashSet<>(Arrays.asList(1, 2, 3, 5, 7)) },
-        new Object[] { 9, new HashSet<>(Arrays.asList(1, 2, 3, 5, 7)) },
-        new Object[] { 10, new HashSet<>(Arrays.asList(1, 2, 3, 5, 7)) } };
+    return new Object[] {
+        new Object[] { 1, new HashSet<>() },
+        new Object[] { 2, new HashSet<>(Arrays.asList(2)) },
+        new Object[] { 3, new HashSet<>(Arrays.asList(2, 3)) },
+        new Object[] { 4, new HashSet<>(Arrays.asList(2, 3)) },
+        new Object[] { 5, new HashSet<>(Arrays.asList(2, 3, 5)) },
+        new Object[] { 6, new HashSet<>(Arrays.asList(2, 3, 5)) },
+        new Object[] { 7, new HashSet<>(Arrays.asList(2, 3, 5, 7)) },
+        new Object[] { 8, new HashSet<>(Arrays.asList(2, 3, 5, 7)) },
+        new Object[] { 9, new HashSet<>(Arrays.asList(2, 3, 5, 7)) },
+        new Object[] { 10, new HashSet<>(Arrays.asList(2, 3, 5, 7)) } };
   }
 
 }

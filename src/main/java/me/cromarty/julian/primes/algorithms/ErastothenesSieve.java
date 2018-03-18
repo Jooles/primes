@@ -34,7 +34,7 @@ public class ErastothenesSieve implements PrimesFinder {
 
   private Set<Integer> generateIntegers(final int max) {
     final Set<Integer> ints = ConcurrentHashMap.newKeySet();
-    for (int i = 1; i <= max; i++) {
+    for (int i = 2; i <= max; i++) {
       ints.add(i);
     }
     return ints;
