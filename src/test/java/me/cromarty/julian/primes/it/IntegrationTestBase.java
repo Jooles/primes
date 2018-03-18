@@ -18,7 +18,7 @@ public abstract class IntegrationTestBase {
   public static void setup() {
     final String port = System.getProperty("server.port");
     if (port == null) {
-      RestAssured.port = Integer.valueOf(17050);
+      RestAssured.port = Integer.valueOf(8080);
     } else {
       RestAssured.port = Integer.valueOf(port);
     }

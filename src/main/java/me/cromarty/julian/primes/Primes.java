@@ -12,7 +12,14 @@ import me.cromarty.julian.primes.algorithms.ErastothenesSieve;
 public class Primes {
 
   public static void main(final String[] args) {
-    final App primesService = new App(17050);
+    final String port = System.getProperty("server.port");
+    int serverPort;
+    if (port == null) {
+      serverPort = Integer.valueOf(8080);
+    } else {
+      serverPort = Integer.valueOf(port);
+    }
+    final App primesService = new App(serverPort);
   }
 
   public static class App {
@@ -26,7 +33,7 @@ public class Primes {
 
     public App(final int port) {
       primeFinder = new ErastothenesSieve();
-      app = Javalin.start(17050)
+      app = Javalin.start(port)
                    .exception(Exception.class, (e, ctx) -> ctx.status(HttpStatus.BAD_REQUEST_400))
                    .get("/primes/:initial", ctx -> {
                      final String initial = ctx.param("initial");

@@ -8,12 +8,26 @@ import java.util.Arrays;
 import org.eclipse.jetty.http.HttpStatus;
 import org.junit.Test;
 
+import com.jayway.restassured.RestAssured;
+
 import junitparams.Parameters;
+import me.cromarty.julian.primes.Primes.App;
 
 /**
  * @author Julian Cromarty
  */
 public class PrimesRestTest extends IntegrationTestBase {
+
+  @Test
+  public void testAlternateServerPort() {
+    final int port = 39284;
+    final App server2 = new App(port);
+    final int oldPort = RestAssured.port;
+    RestAssured.port = port;
+    given().when().get("/primes/2").then().statusCode(HttpStatus.OK_200);
+    server2.stop();
+    RestAssured.port = oldPort;
+  }
 
   @Test
   public void incorrectEndPoint() {
