@@ -32,7 +32,7 @@ public class ErastothenesSieveTest {
   @Test
   @Parameters(method = "primesToTen")
   public void testPrimesToTen(final int initial, final Set<Integer> expectedPrimes) {
-    assertEquals(expectedPrimes, sieve.getPrimes(initial));
+    assertEquals(expectedPrimes, sieve.getPrimes(initial).getPrimes());
   }
 
   private Object[] primesToTen() {

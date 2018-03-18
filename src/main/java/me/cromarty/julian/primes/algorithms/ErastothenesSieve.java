@@ -3,6 +3,7 @@ package me.cromarty.julian.primes.algorithms;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import me.cromarty.julian.primes.PrimesResponse;
 import me.cromarty.julian.primes.PrimesFinder;
 
 /**
@@ -13,7 +14,7 @@ import me.cromarty.julian.primes.PrimesFinder;
 public class ErastothenesSieve implements PrimesFinder {
 
   @Override
-  public Set<Integer> getPrimes(final int initial) {
+  public PrimesResponse getPrimes(final int initial) {
     if (initial <= 1) {
       throw new IllegalArgumentException("Initial number must be greater than 0");
     }
@@ -21,7 +22,7 @@ public class ErastothenesSieve implements PrimesFinder {
     for (int i = 2; i <= initial; i++) {
       eliminateMultiples(primes, i);
     }
-    return primes;
+    return new PrimesResponse(initial, primes);
   }
 
   private void eliminateMultiples(final Set<Integer> ints, final int multiple) {
