@@ -10,7 +10,9 @@ Send a `GET` request to `http(s)://host.name/primes/n`, where n is a positive in
 
 The response will be a JSON object with the form
 
-```{
+```javascript
+{
     initial: 10,
     primes: [2, 3, 5, 7]
-}```
+}
+```
