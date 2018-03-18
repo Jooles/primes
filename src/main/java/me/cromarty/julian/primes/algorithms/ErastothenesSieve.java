@@ -14,7 +14,7 @@ public class ErastothenesSieve implements PrimesFinder {
 
   @Override
   public Set<Integer> getPrimes(final int initial) {
-    if (initial <= 0) {
+    if (initial <= 1) {
       throw new IllegalArgumentException("Initial number must be greater than 0");
     }
     final Set<Integer> primes = generateIntegers(initial);

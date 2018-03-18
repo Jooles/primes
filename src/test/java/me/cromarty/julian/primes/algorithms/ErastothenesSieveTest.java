@@ -1,4 +1,4 @@
-package me.julian.cromarty.primes.algorithms;
+package me.cromarty.julian.primes.algorithms;
 
 import static org.junit.Assert.assertEquals;
 
@@ -19,12 +19,12 @@ import me.cromarty.julian.primes.algorithms.ErastothenesSieve;
  */
 @SuppressWarnings("unused")
 @RunWith(JUnitParamsRunner.class)
-public class SieveTest {
+public class ErastothenesSieveTest {
 
   PrimesFinder sieve = new ErastothenesSieve();
 
   @Test(expected = IllegalArgumentException.class)
-  @Parameters({ "-2147483648", "-1", "0" })
+  @Parameters({ "-2147483648", "-1", "0", "1" })
   public void testInvalidInitialNumbers(final int initial) {
     sieve.getPrimes(initial);
   }
@@ -37,16 +37,18 @@ public class SieveTest {
 
   private Object[] primesToTen() {
     return new Object[] {
-        new Object[] { 1, new HashSet<>() },
-        new Object[] { 2, new HashSet<>(Arrays.asList(2)) },
-        new Object[] { 3, new HashSet<>(Arrays.asList(2, 3)) },
-        new Object[] { 4, new HashSet<>(Arrays.asList(2, 3)) },
-        new Object[] { 5, new HashSet<>(Arrays.asList(2, 3, 5)) },
-        new Object[] { 6, new HashSet<>(Arrays.asList(2, 3, 5)) },
-        new Object[] { 7, new HashSet<>(Arrays.asList(2, 3, 5, 7)) },
-        new Object[] { 8, new HashSet<>(Arrays.asList(2, 3, 5, 7)) },
-        new Object[] { 9, new HashSet<>(Arrays.asList(2, 3, 5, 7)) },
-        new Object[] { 10, new HashSet<>(Arrays.asList(2, 3, 5, 7)) } };
+        new Object[] { 2, set(2) },
+        new Object[] { 3, set(2, 3) },
+        new Object[] { 4, set(2, 3) },
+        new Object[] { 5, set(2, 3, 5) },
+        new Object[] { 6, set(2, 3, 5) },
+        new Object[] { 7, set(2, 3, 5, 7) },
+        new Object[] { 8, set(2, 3, 5, 7) },
+        new Object[] { 9, set(2, 3, 5, 7) },
+        new Object[] { 10, set(2, 3, 5, 7) } };
   }
 
+  private Set<Integer> set(Integer... ints) {
+    return new HashSet<>(Arrays.asList(ints));
+  }
 }
