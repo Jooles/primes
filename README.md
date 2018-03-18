@@ -16,3 +16,13 @@ The response will be a JSON object with the form
     primes: [2, 3, 5, 7]
 }
 ```
+
+## Setup
+
+To build and run, just use the following commands:
+```bash
+$ mvn clean package
+$ java -jar /path/to/repository/primes-x.y.z.jar
+```
+
+The server listens on port 8080 by default but this can be changed by setting the `server.port` system variable to the desired port
