@@ -1,0 +1,2 @@
+* Store cache to disk occasionally so that it doesn't need to be recalculated from scratch each time
+* Add additional algorithms using optional URL parameters
