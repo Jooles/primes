@@ -1,6 +1,10 @@
 package me.cromarty.julian.primes;
 
+import javax.activation.MimeType;
+
 import org.eclipse.jetty.http.HttpStatus;
+
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import io.javalin.Handler;
 import io.javalin.Javalin;
@@ -40,7 +44,14 @@ public class Primes {
                      if ((initial == null) || initial.isEmpty()) {
                        ctx.status(HttpStatus.NOT_FOUND_404);
                      } else {
-                       ctx.json(primeFinder.getPrimes(Integer.parseInt(initial)));
+                       final PrimesResponse result = primeFinder.getPrimes(Integer.parseInt(initial));
+                       final MimeType mime = new MimeType(ctx.header("Accept"));
+                       if (mime.getBaseType().equals("application/xml")) {
+                         final XmlMapper mapper = new XmlMapper();
+                         ctx.contentType("application/xml").result(mapper.writeValueAsString(result));
+                       } else {
+                         ctx.json(result);
+                       }
                      }
                    })
                    .get("/*", ctx -> ctx.status(HttpStatus.NOT_FOUND_404))

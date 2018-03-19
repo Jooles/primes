@@ -2,6 +2,8 @@ package me.cromarty.julian.primes.it;
 
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.startsWith;
 
 import java.util.Arrays;
 
@@ -66,5 +68,18 @@ public class PrimesRestTest extends IntegrationTestBase {
            .statusCode(HttpStatus.OK_200)
            .and()
            .body("primes", response -> equalTo(Arrays.asList(2, 3, 5, 7)));
+  }
+
+  @Test
+  public void testPrimesToTenXml() {
+    given().header("Accept", "application/xml")
+           .when()
+           .get("/primes/10")
+           .then()
+           .statusCode(HttpStatus.OK_200)
+           .and()
+           .contentType(startsWith("application/xml"))
+           .and()
+           .body("PrimesResponse.primes", hasItems("2", "3", "5", "7"));
   }
 }

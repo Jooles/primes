@@ -2,6 +2,8 @@ package me.cromarty.julian.primes;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+
 import lombok.Data;
 
 /**
@@ -12,5 +14,6 @@ import lombok.Data;
 @Data
 public class PrimesResponse {
   private final int initial;
+  @JacksonXmlElementWrapper(useWrapping=false)
   private final Set<Integer> primes;
 }
