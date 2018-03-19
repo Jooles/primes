@@ -1,9 +1,14 @@
 package me.cromarty.julian.primes.algorithms;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import me.cromarty.julian.primes.PrimesFinder;
 import me.cromarty.julian.primes.PrimesResponse;
@@ -15,6 +20,7 @@ import me.cromarty.julian.primes.PrimesResponse;
  */
 public class ErastothenesSieve implements PrimesFinder {
 
+  private final ExecutorService executor = Executors.newWorkStealingPool();
   private final Set<Integer> primesCache = ConcurrentHashMap.newKeySet();
   private int largestPrime = 2;
 
@@ -26,9 +32,7 @@ public class ErastothenesSieve implements PrimesFinder {
     Set<Integer> primes;
     if (primesCache.isEmpty()) {
       primes = generateIntegers(initial);
-      for (int i = 2; i <= initial; i++) {
-        eliminateMultiples(primes, i);
-      }
+      eliminateMultiples(primes, initial);
       primesCache.addAll(primes);
       largestPrime = Math.max(largestPrime, Collections.max(primes).intValue());
     } else if (largestPrime >= initial) {
@@ -36,9 +40,7 @@ public class ErastothenesSieve implements PrimesFinder {
       primes.removeIf(i -> i > initial);
     } else {
       primes = generateAdditionalIntegers(largestPrime, initial);
-      for (int i = 3; i <= initial; i++) {
-        eliminateMultiples(primes, i);
-      }
+      eliminateMultiples(primes, initial);
       primesCache.addAll(primes);
       largestPrime = Math.max(largestPrime, Collections.max(primes).intValue());
       primes = primesCache;
@@ -47,11 +49,27 @@ public class ErastothenesSieve implements PrimesFinder {
     return new PrimesResponse(initial, primes);
   }
 
-  private void eliminateMultiples(final Set<Integer> ints, final int multiple) {
+  private void eliminateMultiples(final Set<Integer> ints, final int initial) {
+    final List<Future<?>> tasks = new ArrayList<>();
     for (final Integer i : ints) {
-      if (((i % multiple) == 0) && (i > multiple)) {
-        ints.remove(i);
+      tasks.add(executor.submit(() -> {
+        final int max = Math.max(i, initial);
+        for (int multiple = 3; multiple <= max; multiple++) {
+          if (((i % multiple) == 0) && (i > multiple)) {
+            ints.remove(i);
+            break;
+          }
+        }
+      }));
+    }
+    while (!tasks.isEmpty()) {
+      final List<Future<?>> doneTasks = new ArrayList<>();
+      for (final Future<?> f : tasks) {
+        if (f.isDone()) {
+          doneTasks.add(f);
+        }
       }
+      tasks.removeAll(doneTasks);
     }
   }
 
