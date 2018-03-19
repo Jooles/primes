@@ -35,11 +35,10 @@ public class ErastothenesSieve implements PrimesFinder {
 
   /**
    * Returns primes up to the requested value from either the cache or by
-   * calculating them. Synchronized so that no work is done twice, as all found
-   * primes go into the cache for future calls
+   * calculating them.
    */
   @Override
-  public synchronized PrimesResponse getPrimes(final int initial) {
+  public PrimesResponse getPrimes(final int initial) {
     if (initial <= 1) {
       throw new IllegalArgumentException("Initial number must be greater than 0");
     }
@@ -48,11 +47,13 @@ public class ErastothenesSieve implements PrimesFinder {
     }
 
     final Set<Integer> primes = new TreeSet<>();
-    for (final Integer i : primesCache) {
-      if (i > initial) {
-        break;
+    synchronized (primesCache) {
+      for (final Integer i : primesCache) {
+        if (i > initial) {
+          break;
+        }
+        primes.add(i);
       }
-      primes.add(i);
     }
     return new PrimesResponse(initial, primes);
   }
@@ -67,9 +68,12 @@ public class ErastothenesSieve implements PrimesFinder {
    * the test to see if the loop can be parallelised is repeated after every 500
    * numbers checked so that we can parallelise as soon as possible.
    *
+   * Synchronized so that no work is done twice, as all found primes go into the
+   * cache for future calls
+   *
    * @param max
    */
-  private void findPrimes(final int max) {
+  private synchronized void findPrimes(final int max) {
     final List<Future<?>> tasks = new ArrayList<>();
 
     while (largestNumberChecked <= max) {
@@ -110,7 +114,9 @@ public class ErastothenesSieve implements PrimesFinder {
       }
     }
     if (isPrime) {
-      primesCache.add(potentialPrime);
+      synchronized (primesCache) {
+        primesCache.add(potentialPrime);
+      }
     }
   }
 

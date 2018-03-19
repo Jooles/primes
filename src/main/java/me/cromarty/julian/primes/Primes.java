@@ -60,7 +60,7 @@ public class Primes {
         }
       });
       app = Javalin.start(port)
-                   .exception(Exception.class, (e, ctx) -> ctx.status(HttpStatus.BAD_REQUEST_400))
+                   .exception(Exception.class, (e, ctx) -> ctx.status(HttpStatus.BAD_REQUEST_400).json(e.getMessage()))
                    .get("/primes/:initial", ctx -> {
                      final String initial = ctx.param("initial");
                      if ((initial == null) || initial.isEmpty()) {
