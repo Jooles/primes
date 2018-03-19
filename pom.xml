@@ -4,7 +4,7 @@
   <groupId>me.cromarty.julian</groupId>
   <artifactId>primes</artifactId>
   <packaging>jar</packaging>
-  <version>0.1.5</version>
+  <version>0.1.6-SNAPSHOT</version>
   <name>primes</name>
   <description>A RESTful web service which returns the prime numbers up to and including the number in the request</description>
   <url>https://github.com/jooles/primes</url>
