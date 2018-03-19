@@ -8,13 +8,24 @@ A RESTful web service which returns the prime numbers up to and including the nu
 
 Send a `GET` request to `http(s)://host.name/primes/n`, where n is a positive integer greater than 1 indicating the largest number to check for primality.
 
-The response will be a JSON object with the form
+The response will usually be a JSON object with the form
 
 ```javascript
 {
     initial: 10,
     primes: [2, 3, 5, 7]
 }
+```
+
+If the request contains an `Accept` header of `application/xml` then the response will be sent as XML instead, as in this example:
+```xml
+<PrimesResponse>
+  <initial>10</initial>
+  <primes>2</primes>
+  <primes>3</primes>
+  <primes>5</primes>
+  <primes>7</primes>
+</PrimesResponse>
 ```
 
 ## Setup
