@@ -82,6 +82,11 @@ public class Primes {
                    .patch("/*", INVALID_METHOD_HANDLER)
                    .post("/*", INVALID_METHOD_HANDLER)
                    .put("/*", INVALID_METHOD_HANDLER);
+      /* Give the server some time to start before we go thrashing the CPU */
+      try {
+        Thread.sleep(5000);
+      } catch (final InterruptedException ignored) {
+      }
       warmupThread.start();
     }
 

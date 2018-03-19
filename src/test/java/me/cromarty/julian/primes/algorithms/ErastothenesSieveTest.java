@@ -60,7 +60,8 @@ public class ErastothenesSieveTest {
         new Object[] { 7, set(2, 3, 5, 7) },
         new Object[] { 8, set(2, 3, 5, 7) },
         new Object[] { 9, set(2, 3, 5, 7) },
-        new Object[] { 10, set(2, 3, 5, 7) } };
+        new Object[] { 10, set(2, 3, 5, 7) }
+    };
   }
   //@formatter:on
 
