@@ -29,8 +29,8 @@ public class ErastothenesSieveTest {
   }
 
   @Test
-  @Parameters(method = "primesToTen")
-  public void testPrimesToTen(final int initial, final Set<Integer> expectedPrimes) {
+  @Parameters(method = "primesToOneHundred")
+  public void testPrimesToOneHundred(final int initial, final Set<Integer> expectedPrimes) {
     assertEquals(expectedPrimes, sieve.getPrimes(initial).getPrimes());
   }
 
@@ -50,7 +50,7 @@ public class ErastothenesSieveTest {
   }
 
   //@formatter:off
-  private Object[] primesToTen() {
+  private Object[] primesToOneHundred() {
     return new Object[] {
         new Object[] { 2, set(2) },
         new Object[] { 3, set(2, 3) },
@@ -60,7 +60,8 @@ public class ErastothenesSieveTest {
         new Object[] { 7, set(2, 3, 5, 7) },
         new Object[] { 8, set(2, 3, 5, 7) },
         new Object[] { 9, set(2, 3, 5, 7) },
-        new Object[] { 10, set(2, 3, 5, 7) }
+        new Object[] { 10, set(2, 3, 5, 7) },
+        new Object[] { 100, set(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97) }
     };
   }
   //@formatter:on
