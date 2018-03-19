@@ -12,7 +12,6 @@ import org.junit.runner.RunWith;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import me.cromarty.julian.primes.PrimesFinder;
-import me.cromarty.julian.primes.algorithms.ErastothenesSieve;
 
 /**
  * @author Julian Cromarty
@@ -35,6 +34,22 @@ public class ErastothenesSieveTest {
     assertEquals(expectedPrimes, sieve.getPrimes(initial).getPrimes());
   }
 
+  @Test
+  public void testCache() {
+    final Set<Integer> firstRun = sieve.getPrimes(97).getPrimes();
+    final Set<Integer> secondRun = sieve.getPrimes(97).getPrimes();
+    assertEquals(firstRun, secondRun);
+  }
+
+  @Test
+  public void testCachePartial() {
+    final Set<Integer> firstRun = sieve.getPrimes(100).getPrimes();
+    final Set<Integer> secondRun = sieve.getPrimes(200).getPrimes();
+    secondRun.removeIf(i -> i > 100);
+    assertEquals(firstRun, secondRun);
+  }
+
+  //@formatter:off
   private Object[] primesToTen() {
     return new Object[] {
         new Object[] { 2, set(2) },
@@ -47,8 +62,9 @@ public class ErastothenesSieveTest {
         new Object[] { 9, set(2, 3, 5, 7) },
         new Object[] { 10, set(2, 3, 5, 7) } };
   }
+  //@formatter:on
 
-  private Set<Integer> set(Integer... ints) {
+  private Set<Integer> set(final Integer... ints) {
     return new HashSet<>(Arrays.asList(ints));
   }
 }
