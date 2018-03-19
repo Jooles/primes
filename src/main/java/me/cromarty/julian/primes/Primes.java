@@ -34,9 +34,31 @@ public class Primes {
       /* Indicate to client that we only accept the GET method */
       ctx.status(HttpStatus.METHOD_NOT_ALLOWED_405).header("ALLOW", "GET");
     };
+    private final Thread warmupThread;
+
+    private volatile boolean isRunning;
 
     public App(final int port) {
       primeFinder = new ErastothenesSieve();
+      isRunning = true;
+      warmupThread = new Thread(() -> {
+        /*
+         * Thread that constantly calculates primes to fill up the cache
+         */
+        int warmup = 100;
+        while (isRunning) {
+          primeFinder.getPrimes(warmup);
+          warmup += 100;
+          if (warmup < 0) {
+            /*
+             * overflow! Just ensure we've got all the primes we can, then end the thread.
+             * Will probably never happen
+             */
+            primeFinder.getPrimes(Integer.MAX_VALUE);
+            return;
+          }
+        }
+      });
       app = Javalin.start(port)
                    .exception(Exception.class, (e, ctx) -> ctx.status(HttpStatus.BAD_REQUEST_400))
                    .get("/primes/:initial", ctx -> {
@@ -60,9 +82,16 @@ public class Primes {
                    .patch("/*", INVALID_METHOD_HANDLER)
                    .post("/*", INVALID_METHOD_HANDLER)
                    .put("/*", INVALID_METHOD_HANDLER);
+      warmupThread.start();
     }
 
     public void stop() {
+      isRunning = false;
+      warmupThread.interrupt();
+      try {
+        warmupThread.join(10000);
+      } catch (final InterruptedException ignored) {
+      }
       app.stop();
     }
   }
