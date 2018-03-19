@@ -45,10 +45,10 @@ public class Primes {
         /*
          * Thread that constantly calculates primes to fill up the cache
          */
-        int warmup = 100;
+        int warmup = 2000;
         while (isRunning) {
           primeFinder.getPrimes(warmup);
-          warmup += 100;
+          warmup += 1000;
           if (warmup < 0) {
             /*
              * overflow! Just ensure we've got all the primes we can, then end the thread.
